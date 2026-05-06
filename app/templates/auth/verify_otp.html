@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import page_header %}
+{% block title %}Verify OTP | Data Automation{% endblock %}
+{% block content %}
+<section class="max-w-md mx-auto card p-6 md:p-8 reveal">
+    {{ page_header("Auth Step", "Verify your email", "Enter the 6-digit OTP sent to your email.") }}
+
+    <form method="post" class="space-y-4">
+        <label class="block">
+            <span class="label">Email</span>
+            <input class="input" type="email" name="email" value="{{ email }}" required>
+        </label>
+        <label class="block">
+            <span class="label">OTP Code</span>
+            <input class="input" type="text" name="otp" maxlength="6" minlength="6" pattern="[0-9]{6}" required>
+        </label>
+        <button class="btn-primary w-full" type="submit">Verify OTP</button>
+    </form>
+
+    <form class="mt-4" method="post" action="{{ url_for('auth.resend_otp') }}">
+        <input type="hidden" name="email" value="{{ email }}">
+        <button class="btn-secondary w-full" type="submit">Resend OTP</button>
+    </form>
+
+    <p class="text-sm text-slate-300 mt-5">
+        If SMTP is not configured yet, OTP is shown in server logs for local development.
+    </p>
+</section>
+{% endblock %}

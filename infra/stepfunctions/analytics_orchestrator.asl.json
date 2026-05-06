@@ -1,0 +1,109 @@
+{
+  "Comment": "Data Automation analytics orchestrator (MVP template)",
+  "StartAt": "SetJobRunning",
+  "States": {
+    "SetJobRunning": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "da-update-job-status",
+        "Payload": {
+          "job_id.$": "$.job_id",
+          "status": "RUNNING",
+          "stage": "START"
+        }
+      },
+      "ResultPath": "$.status_update",
+      "Next": "RunGlueJob",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "HandleFailure"
+        }
+      ]
+    },
+    "RunGlueJob": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "da-etl-job",
+        "Arguments": {
+          "--job_id.$": "$.job_id",
+          "--input_key.$": "$.s3_input_key"
+        }
+      },
+      "ResultPath": "$.glue_result",
+      "Next": "RunAthenaQuery",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "HandleFailure"
+        }
+      ]
+    },
+    "RunAthenaQuery": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::athena:startQueryExecution.sync",
+      "Parameters": {
+        "QueryString": "SELECT * FROM analytics_raw.processed LIMIT 100;",
+        "WorkGroup": "data-automation-wg",
+        "ResultConfiguration": {
+          "OutputLocation": "s3://REPLACE_BUCKET/athena/results/"
+        }
+      },
+      "ResultPath": "$.athena_result",
+      "Next": "InvokeSageMakerStage",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "HandleFailure"
+        }
+      ]
+    },
+    "InvokeSageMakerStage": {
+      "Type": "Pass",
+      "Comment": "Placeholder for SageMaker integration by Kunal",
+      "Next": "FinalizeResults"
+    },
+    "FinalizeResults": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "da-finalize-results",
+        "Payload": {
+          "job_id.$": "$.job_id",
+          "status": "SUCCEEDED",
+          "glue_result.$": "$.glue_result",
+          "athena_result.$": "$.athena_result"
+        }
+      },
+      "ResultPath": "$.final_result",
+      "Next": "Success",
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "ResultPath": "$.error",
+          "Next": "HandleFailure"
+        }
+      ]
+    },
+    "HandleFailure": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "da-handle-failure",
+        "Payload": {
+          "job_id.$": "$.job_id",
+          "error.$": "$.error"
+        }
+      },
+      "End": true
+    },
+    "Success": {
+      "Type": "Succeed"
+    }
+  }
+}

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ chart_data.mode_name }} Dashboard Export</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            margin: 0;
+            padding: 24px;
+            color: #ffffff;
+            background:( #fff8f2);
+        }
+        .hero {
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            margin: 0 0 8px;
+        }
+        .hero p {
+            margin: 4px 0;
+            color: #e6dfda;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .card {
+            background: #ffffff;
+            border: 1px solid #ffffff;
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 10px 24px rgba(149, 101, 64, 0.12);
+        }
+        .label {
+            font-size: 12px;
+            color: #8a6d58;
+        }
+        .value {
+            font-size: 30px;
+            font-weight: 800;
+            margin: 8px 0;
+        }
+        .hint {
+            font-size: 14px;
+            line-height: 1.45;
+            color: #6c5646;
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+        .chart-shell {
+            background: #ffffff;
+            border: 1px solid #efd5bc;
+            border-radius: 18px;
+            padding: 16px;
+        }
+        .chart-shell h3 {
+            margin: 0 0 8px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 18px;
+            background: #fff;
+        }
+        th, td {
+            border-bottom: 1px solid #f1dfce;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            color: #8a6d58;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <h1>{{ chart_data.mode_name }} Dashboard</h1>
+        <p>{{ chart_data.mode_intro }}</p>
+        <p>Dataset: {{ job.filename }} | Filters: {{ chart_data.filters.category }}, {{ chart_data.filters.region }}, {{ chart_data.filters.year }}</p>
+    </section>
+
+    <section class="grid">
+        {% for item in chart_data.kpis %}
+        <div class="card">
+            <div class="label">{{ item.label }}</div>
+            <div class="value">{{ item.display_value }}</div>
+            <div class="hint">{{ item.insight }}</div>
+        </div>
+        {% endfor %}
+    </section>
+
+    <section class="chart-grid">
+        {% for chart in chart_data.charts %}
+        <div class="chart-shell">
+            <h3>{{ chart.title }}</h3>
+            <p class="hint">{{ chart.description }}</p>
+            <canvas id="{{ chart.id }}"></canvas>
+        </div>
+        {% endfor %}
+    </section>
+
+    {% if chart_data.tables %}
+    <section>
+        {% for table in chart_data.tables %}
+        <h3>{{ table.title }}</h3>
+        <table>
+            <thead>
+                <tr>
+                    {% for col in table.columns %}
+                    <th>{{ col }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in table.rows %}
+                <tr>
+                    {% for cell in row %}
+                    <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+    </section>
+    {% endif %}
+
+    <script>
+        const dashboardData = JSON.parse('{{ chart_data | tojson | safe }}');
+        dashboardData.charts.forEach((chart) => {
+            const canvas = document.getElementById(chart.id);
+            if (!canvas) return;
+            const options = { responsive: true, plugins: { legend: { position: 'top' } } };
+            if (chart.axes && chart.axes.secondary_percent) {
+                options.scales = {
+                    y: { beginAtZero: true },
+                    y1: {
+                        beginAtZero: true,
+                        max: 100,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        ticks: { callback: (value) => `${value}%` }
+                    }
+                };
+            }
+            if (chart.axes && chart.axes.secondary_numeric) {
+                options.scales = {
+                    y: { beginAtZero: true },
+                    y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false } }
+                };
+            }
+            new Chart(canvas, {
+                type: chart.type,
+                data: { labels: chart.labels, datasets: chart.datasets },
+                options
+            });
+        });
+    </script>
+</body>
+</html>

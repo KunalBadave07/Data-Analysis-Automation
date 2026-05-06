@@ -1,0 +1,208 @@
+Data Automation Platform - Developer Instructions
+Last updated: 2026-03-10 15:17 IST
+
+==================================================
+PROJECT STATE SNAPSHOT
+==================================================
+Completed phases:
+- Phase 1: Architecture + repo setup
+- Phase 2: Frontend framework hardening
+- Phase 3: Authentication + OTP verification
+
+Current blocker:
+- AWS cloud integration is pending IAM access handoff from Manasvi.
+- Detailed handoff doc for Manasvi: docs/MANASVI_PIPELINE_RUNBOOK.md
+- Codex continuity context for Manasvi machine: MANASVI_CODEX_CONTEXT.md
+- Crystal-clear step-by-step task file for Manasvi: manasvi.md
+
+==================================================
+PHASE 1 - LOCAL SETUP
+==================================================
+1) Open terminal in project root:
+   c:\Users\kunal\OneDrive\Desktop\Data Automation
+
+2) Create virtual environment:
+   python -m venv .venv
+
+3) Activate virtual environment (PowerShell):
+   .\.venv\Scripts\Activate.ps1
+
+4) Install dependencies:
+   python -m pip install -r requirements.txt
+
+5) Verify interpreter is from .venv:
+   python -c "import sys; print(sys.executable)"
+   Expected path contains: \Data Automation\.venv\Scripts\python.exe
+
+6) Create environment file:
+   copy .env.example .env
+
+7) Edit .env minimum values:
+   SECRET_KEY=<strong-random-value>
+   AWS_REGION=ap-south-1
+   S3_BUCKET_DATASETS=<your-bucket-name>
+   AUTH_DB_PATH=instance/data_automation.db
+   OTP_EXPIRY_MINUTES=10
+   OTP_RESEND_COOLDOWN_SECONDS=45
+
+8) Start app:
+   python run.py
+
+9) Open browser:
+http://127.0.0.1:5000
+
+10) Run tests:
+    python -m pytest -q
+
+==================================================
+PHASE 2 - UI FRAMEWORK VALIDATION
+==================================================
+1) Start app:
+   python run.py
+
+2) Check desktop views:
+   - Home hero + metric cards
+   - Operation selection cards
+   - Upload form and checklist side panel
+   - Processing timeline + progress bar
+   - Results metric cards and recommendation blocks
+
+3) Check mobile responsiveness:
+   - Open browser dev tools -> Toggle device toolbar
+   - Verify top-right menu button opens mobile nav
+   - Ensure cards/forms are not overflowing
+
+==================================================
+PHASE 3 - AUTH + OTP VALIDATION
+==================================================
+1) Register a new user:
+   - Open /auth/register
+   - Submit email + password (>= 8 chars)
+
+2) OTP behavior:
+   - If SMTP is configured, OTP arrives by email
+   - If SMTP is NOT configured, OTP appears in server logs as:
+     [DEV OTP] email=<address> otp=<6-digit-code>
+
+3) Verify OTP:
+   - Open /auth/verify
+   - Enter email + OTP code
+   - Confirm successful verification and auto-login
+
+4) Negative checks:
+   - Login before verify should be blocked
+   - Wrong OTP should show validation error
+   - Resend OTP should respect cooldown
+
+==================================================
+AWS CONSOLE SETUP (MANASVI OWNERSHIP)
+==================================================
+Goal: Prepare shared AWS foundation and give Kunal IAM access.
+
+A) Create S3 bucket (Dataset storage)
+1. AWS Console -> S3 -> Create bucket
+2. Bucket name: globally unique
+3. Region: ap-south-1 (or team standard region)
+4. Create bucket and share name with Kunal
+
+B) Create DynamoDB tables
+1. analytics_users
+   - PK: user_id (String)
+2. analytics_jobs
+   - PK: job_id (String)
+3. Use on-demand billing for student project simplicity
+
+C) IAM handoff to Kunal (MANDATORY)
+1. IAM -> Users -> Create user: kunal-data-automation
+2. Enable programmatic access
+3. Add to group: data-automation-dev
+4. Attach temporary dev policies:
+   - AmazonS3FullAccess
+   - AmazonDynamoDBFullAccess
+   - AWSStepFunctionsFullAccess
+   - AWSLambda_FullAccess
+   - AWSGlueConsoleFullAccess
+   - AmazonAthenaFullAccess
+   - AmazonSageMakerFullAccess
+   - AmazonQuickSightFullAccess
+5. Share Access Key ID + Secret Access Key securely with Kunal
+
+D) Step Functions placeholder
+1. Step Functions -> Create standard state machine
+2. Name: analytics-orchestrator-dev
+3. Save ARN for `.env` as STEP_FUNCTION_ARN
+
+E) Use implementation templates from repo
+1. Step Functions template:
+   infra/stepfunctions/analytics_orchestrator.asl.json
+2. Lambda event contract examples:
+   infra/lambda/payload_examples/start_job_event.json
+   infra/lambda/payload_examples/status_update_event.json
+3. Athena query templates:
+   infra/athena/query_templates.sql
+
+F) Mandatory artifact handoff to Kunal after setup
+1. S3 bucket name + prefix structure
+2. DynamoDB table names + key schemas + GSIs
+3. Step Functions ARN
+4. Lambda names/ARNs and required env vars
+5. Glue crawler/job names
+6. Athena workgroup + output S3 path
+7. QuickSight dataset/dashboard IDs
+8. CloudWatch alarm names
+
+G) Full detailed execution runbook
+- Follow step-by-step:
+  docs/MANASVI_PIPELINE_RUNBOOK.md
+
+==================================================
+PENDING TASK BREAKDOWN (ANALYZED)
+==================================================
+KUNAL - Pending work
+[ ] Frontend polish for phase 4+ pages after real API payloads are connected
+[ ] Integrate real status polling UI once Step Functions is live
+[ ] Build ML training scripts/notebooks for:
+    - Linear Regression
+    - Random Forest
+    - Prophet
+    - Isolation Forest
+[ ] Prepare SageMaker training + inference code and container/runtime config
+[ ] Build GenAI prompt templates for business insights and recommendations
+[ ] Integrate QuickSight embed in dashboard page (phase 8)
+[ ] Implement report export UX (CSV/PDF download actions) in phase 10
+[ ] Add frontend/API integration tests for complete user journey
+
+MANASVI - Pending work
+[ ] Share IAM access to Kunal immediately (critical blocker)
+[ ] Follow docs/MANASVI_PIPELINE_RUNBOOK.md in exact order
+[ ] Provision S3 bucket structure and lifecycle rules
+[ ] Finalize DynamoDB schemas + indexes for users/jobs/events
+[ ] Build Lambda functions for:
+    - upload trigger
+    - pipeline orchestrator callbacks
+    - status update handlers
+[ ] Build Step Functions state machine definition with retry/failure branches
+[ ] Configure Glue crawler + ETL jobs for uploaded datasets
+[ ] Configure Athena database/workgroup/query outputs
+[ ] Configure SageMaker execution role + permissions
+[ ] Configure QuickSight datasets, analysis, and dashboard assets
+[ ] Add CloudWatch logging/alarms for pipeline observability
+[ ] Hand over all final ARNs/names/IDs to Kunal using the mandatory artifact checklist
+
+JOINT (Kunal + Manasvi)
+[ ] End-to-end integration test after IAM handoff
+[ ] UAT run with one real dataset
+[ ] Deployment checklist for phase 11
+
+==================================================
+TROUBLESHOOTING
+==================================================
+1) If PowerShell blocks activation:
+   Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+2) If module import fails:
+   Confirm venv is active and rerun:
+   python -m pip install -r requirements.txt
+
+3) If AWS auth fails:
+   Re-run aws configure and verify IAM credentials from Manasvi.

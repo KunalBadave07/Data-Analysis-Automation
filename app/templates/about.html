@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import page_header %}
+{% block title %}About | Data Automation{% endblock %}
+{% block content %}
+<section class="space-y-6">
+    {{ page_header("", "About", "User guide and project overview.") }}
+
+    <article class="card p-6 reveal">
+        <h2 class="text-xl font-bold">User Guide</h2>
+        <ol class="mt-4 space-y-3 text-sm text-slate-200">
+            <li>1. Open the home page and select a process from the main panel.</li>
+            <li>2. Upload your dataset (CSV/XLS/XLSX) and submit the run.</li>
+            <li>3. Track run status and open Results, Dashboard, or Report from History.</li>
+            <li>4. Use the User section to manage password and account details.</li>
+        </ol>
+    </article>
+
+    <article class="card p-6 reveal">
+        <h2 class="text-xl font-bold">About Us</h2>
+        <p class="mt-3 text-sm text-slate-200">
+            Data Automation provides a simple analytics workflow that guides users from operation selection to
+            upload, processing, and report review. The current implementation focuses on a clean UI and fast
+            workflow navigation for daily use.
+        </p>
+    </article>
+</section>
+{% endblock %}

@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import action_button, page_header, pipeline_steps %}
+{% block title %}Report | Data Automation{% endblock %}
+{% block content %}
+<section class="space-y-6">
+    {{ page_header("Step 6", "Business Analytics Report", "A structured, presentation-ready report built from the uploaded dataset.") }}
+    {{ pipeline_steps("6", job=job) }}
+
+    <article class="card p-6 report-shell reveal">
+        <div class="report-hero">
+            <p class="eyebrow">Executive Summary</p>
+            <h2>{{ report.title }}</h2>
+            <p>{{ report.executive_summary }}</p>
+            <p class="report-meta">Operation: {{ report.operation }} | Status: {{ report.status }}</p>
+        </div>
+
+        <div class="report-grid">
+                <section class="report-section">
+                    <h3>Dataset Overview</h3>
+                <ul>
+                    {% for item in report.sections.dataset_overview %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+                <section class="report-section">
+                    <h3>Data Cleaning Summary</h3>
+                <ul>
+                    {% for item in report.sections.preprocessing %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </div>
+
+        <section class="report-section">
+            <h3>Feature Analysis</h3>
+            <ul>
+                {% for item in report.sections.feature_analysis %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        {% if report.sections.mode_sections %}
+        <div class="report-grid">
+            {% for section in report.sections.mode_sections %}
+            <section class="report-section">
+                <h3>{{ section.title }}</h3>
+                <ul>
+                    {% for item in section["items"] %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <section class="report-section">
+            <h3>Embedded Dashboard Snapshot</h3>
+            <div class="report-kpis">
+                {% for item in report.dashboard.kpis %}
+                <div class="metric-card">
+                    <p class="metric-label">{{ item.label }}</p>
+                    <p class="metric-value">{{ item.display_value }}</p>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="report-grid mt-4">
+                {% for chart in report.dashboard.charts[:2] %}
+                <div class="card p-4">
+                    <h4>{{ chart.title }}</h4>
+                    <p class="metric-hint">{{ chart.description }}</p>
+                    <canvas id="reportChart{{ loop.index }}"></canvas>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <div class="report-grid">
+            <section class="report-section">
+                <h3>Business Insights</h3>
+                <ul>
+                    {% for item in report.insights %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section class="report-section">
+                <h3>Recommendations</h3>
+                <ul>
+                    {% for item in report.recommendations %}
+                    <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </div>
+
+        <section class="report-section">
+            <h3>Conclusion</h3>
+            <p>
+                This report reflects the uploaded dataset after preprocessing, validation, and feature generation.
+                The findings, dashboard metrics, and recommendations above are generated from observed values in the dataset rather than placeholders.
+            </p>
+        </section>
+    </article>
+
+    <div class="flex gap-3 flex-wrap">
+        <button class="btn-primary" type="button" data-export-pdf data-export-target=".report-shell" data-export-name="report-{{ job.job_id }}.pdf">Download PDF Report</button>
+        <button class="btn-secondary" type="button" onclick="window.print()">Print</button>
+        {{ action_button(url_for('analysis.dashboard', job_id=job.job_id), "Back to Dashboard", "secondary") }}
+        {{ action_button(url_for('dataset.upload_dataset'), "Run New Analysis", "ghost") }}
+    </div>
+
+    {% if report.dashboard %}
+    <script>
+        const reportDashboard = JSON.parse('{{ report.dashboard | tojson | safe }}');
+        (reportDashboard.charts || []).slice(0, 2).forEach((chart, index) => {
+            const canvas = document.getElementById(`reportChart${index + 1}`);
+            if (!canvas) {
+                return;
+            }
+
+            const options = {
+                responsive: true,
+                plugins: { legend: { position: 'top' } }
+            };
+
+            if (chart.axes && chart.axes.secondary_percent) {
+                options.scales = {
+                    y: { beginAtZero: true },
+                    y1: {
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false },
+                        ticks: { callback: (value) => `${value}%` }
+                    }
+                };
+            }
+
+            if (chart.axes && chart.axes.secondary_numeric) {
+                options.scales = {
+                    y: { beginAtZero: true },
+                    y1: {
+                        beginAtZero: true,
+                        position: 'right',
+                        grid: { drawOnChartArea: false }
+                    }
+                };
+            }
+
+            new Chart(canvas, {
+                type: chart.type,
+                data: {
+                    labels: chart.labels,
+                    datasets: chart.datasets
+                },
+                options
+            });
+        });
+    </script>
+    {% endif %}
+</section>
+{% endblock %}

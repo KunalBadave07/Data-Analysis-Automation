@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import action_button, page_header, pipeline_steps %}
+
+{% block title %}Results | Data Automation{% endblock %}
+
+{% block content %}
+<section class="space-y-6 dashboard-simple">
+    {{ page_header("Step 4", "Results Summary", job.result.summary) }}
+    {{ pipeline_steps("4", job=job) }}
+
+    {% if error %}
+        <p class="text-red-400">{{ error }}</p>
+    {% else %}
+    {% set analysis = analysis or job.result %}
+    {% set filter_lists = analysis.filter_lists or {} %}
+
+    {% if focus_message %}
+    <div class="flash info">{{ focus_message }}</div>
+    {% endif %}
+
+    <div class="text-sm text-slate-300">
+        Showing results for
+        <strong>{{ analysis.filters.category|capitalize }}</strong>,
+        <strong>{{ analysis.filters.region|capitalize }}</strong>,
+        <strong>{{ analysis.filters.year }}</strong>.
+    </div>
+
+    <div class="mb-6">
+        <div class="max-w-4xl">
+            <form method="GET" class="flex gap-3 flex-wrap items-center">
+                <select name="category" class="input py-2 px-3 text-sm w-48">
+                    <option value="all">All Categories</option>
+                    {% for c in filter_lists.category_list %}
+                        <option value="{{ c }}" {% if analysis.filters.category == c %}selected{% endif %}>{{ c }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="region" class="input py-2 px-3 text-sm w-48">
+                    <option value="all">All Regions</option>
+                    {% for r in filter_lists.region_list %}
+                        <option value="{{ r }}" {% if analysis.filters.region == r %}selected{% endif %}>{{ r }}</option>
+                    {% endfor %}
+                </select>
+
+                <select name="year" class="input py-2 px-3 text-sm w-40">
+                    <option value="all">All Years</option>
+                    {% for y in filter_lists.year_list %}
+                        <option value="{{ y }}" {% if analysis.filters.year == y|string %}selected{% endif %}>{{ y }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit" class="btn-primary py-2 px-4 text-sm">Apply</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+        {% for item in analysis.dashboard.kpis %}
+        {% set destination = analysis.metric_destinations.get(item.key) if analysis.metric_destinations else None %}
+        {% if destination %}
+        <a class="metric-card reveal metric-card-link" href="{{ url_for('analysis.metric_detail', job_id=job.job_id, metric_key=item.key, category=analysis.filters.category, region=analysis.filters.region, year=analysis.filters.year) }}">
+            <p class="metric-label">{{ item.label }}</p>
+            <p class="metric-value">{{ item.display_value }}</p>
+            <p class="metric-hint">{{ item.insight or destination.insight }}</p>
+        </a>
+        {% else %}
+        <article class="metric-card reveal">
+            <p class="metric-label">{{ item.label }}</p>
+            <p class="metric-value">{{ item.display_value }}</p>
+            <p class="metric-hint">{{ item.insight }}</p>
+        </article>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div class="grid lg:grid-cols-[1.4fr,1fr] gap-4 items-start" id="dataset-overview">
+        <article class="card p-5 reveal">
+            <h2 class="font-bold mb-3">Dataset Overview</h2>
+            <ul class="space-y-2 text-sm text-slate-200">
+                {% for item in analysis.report_sections.dataset_overview %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+
+        <article class="card p-5 reveal">
+            <h2 class="font-bold mb-3">Data Cleaning Summary</h2>
+            <ul class="space-y-2 text-sm text-slate-200">
+                {% for item in analysis.report_sections.preprocessing %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4" id="metric-breakdown">
+        {% if analysis.breakdowns.category %}
+        <article class="card p-5 reveal">
+            <h2 class="font-bold mb-3">{{ analysis.breakdowns.category.label }} Breakdown Based On {{ analysis.breakdowns.category.metric_label }}</h2>
+            <ul class="space-y-2 text-sm text-slate-200">
+                {% for item in analysis.breakdowns.category.records %}
+                    <li>{{ item.label }} -> {{ item.display_value }}{% if not analysis.breakdowns.category.is_currency %} {{ analysis.breakdowns.category.metric_label }}{% endif %}</li>
+                {% endfor %}
+            </ul>
+        </article>
+        {% endif %}
+
+        {% if analysis.breakdowns.region %}
+        <article class="card p-5 reveal" id="revenue-breakdown">
+            <h2 class="font-bold mb-3">{{ analysis.breakdowns.region.label }} Breakdown Based On {{ analysis.breakdowns.region.metric_label }}</h2>
+            <ul class="space-y-2 text-sm text-slate-200">
+                {% for item in analysis.breakdowns.region.records %}
+                    <li>{{ item.label }} -> {{ item.display_value }}{% if not analysis.breakdowns.region.is_currency %} {{ analysis.breakdowns.region.metric_label }}{% endif %}</li>
+                {% endfor %}
+            </ul>
+        </article>
+        {% endif %}
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-4 items-start mt-4">
+        <article class="card p-5 reveal">
+            <h2 class="font-bold mb-3">Business Insights</h2>
+            <ul class="space-y-2 text-sm text-slate-200">
+                {% for item in analysis.insights %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+
+        <article class="card p-5 reveal">
+            <h2 class="font-bold mb-3">Recommendations</h2>
+            <ul class="space-y-2 text-sm text-slate-200">
+                {% for item in analysis.recommendations %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+    </div>
+
+    {% if analysis.mode_details and analysis.mode_details.sections %}
+    <div class="grid md:grid-cols-2 gap-4 items-start mt-4">
+        {% for section in analysis.mode_details.sections %}
+        <article class="card p-5 reveal">
+            <h2 class="font-bold mb-3">{{ section.title }}</h2>
+            <ul class="space-y-2 text-sm text-slate-200">
+                {% for item in section["items"] %}
+                    <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
+        </article>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="flex gap-3 flex-wrap">
+        {{ action_button(url_for('analysis.dashboard', job_id=job.job_id, category=analysis.filters.category, region=analysis.filters.region, year=analysis.filters.year), "View Dashboard", "primary") }}
+        {{ action_button(url_for('analysis.report', job_id=job.job_id), "Open Report", "secondary") }}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

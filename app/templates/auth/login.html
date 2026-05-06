@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import page_header %}
+{% block title %}Login | Data Automation{% endblock %}
+{% block content %}
+<section class="max-w-md mx-auto card p-6 md:p-8 reveal">
+    {{ page_header("", "Welcome back", "Sign in to run your analytics workflows.") }}
+
+    <form method="post" class="space-y-4">
+        <label class="block">
+            <span class="label">Email</span>
+            <input class="input" type="email" name="email" required>
+        </label>
+        <label class="block">
+            <span class="label">Password</span>
+            <div class="password-field">
+                <input class="input" id="login-password" type="password" name="password" required>
+                <button
+                    class="password-toggle"
+                    type="button"
+                    data-password-toggle
+                    data-target-id="login-password"
+                    aria-label="Show password"
+                    aria-pressed="false"
+                >
+                    <span class="password-icon-open" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M1.5 12C3.8 7.8 7.4 5.8 12 5.8C16.6 5.8 20.2 7.8 22.5 12C20.2 16.2 16.6 18.2 12 18.2C7.4 18.2 3.8 16.2 1.5 12Z"/>
+                            <circle cx="12" cy="12" r="3.2"/>
+                        </svg>
+                    </span>
+                    <span class="password-icon-closed hidden" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M3 3L21 21"/>
+                            <path d="M10.6 6C11 5.9 11.5 5.8 12 5.8C16.6 5.8 20.2 7.8 22.5 12C21.5 13.8 20.2 15.2 18.7 16.2"/>
+                            <path d="M6.3 7.7C4.3 8.8 2.7 10.2 1.5 12C3.8 16.2 7.4 18.2 12 18.2C13.8 18.2 15.4 17.9 16.8 17.2"/>
+                            <path d="M9.9 9.9C9.4 10.4 9.1 11.2 9.1 12C9.1 13.7 10.4 14.9 12 14.9C12.8 14.9 13.6 14.6 14.1 14.1"/>
+                        </svg>
+                    </span>
+                </button>
+            </div>
+        </label>
+        <div class="text-right">
+            <a class="text-cyan-200 underline text-sm" href="{{ url_for('auth.forgot_password') }}">
+                Forgot password?
+            </a>
+        </div>
+        <button class="btn-primary w-full" type="submit">Login</button>
+    </form>
+
+    <div class="text-sm text-slate-300 mt-5 space-y-2">
+        <p>New here? <a class="text-cyan-200 underline" href="{{ url_for('auth.register') }}">Create an account</a>.</p>
+        <p>Not verified yet? <a class="text-cyan-200 underline" href="{{ url_for('auth.verify_otp_page') }}">Enter OTP</a>.</p>
+    </div>
+</section>
+{% endblock %}

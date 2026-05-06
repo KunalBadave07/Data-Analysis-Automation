@@ -1,0 +1,9 @@
+{
+  "job_id": "3ab26c3f-0a70-4225-8d69-7f31177ad2c5",
+  "user_id": "9d0ff8a9-acdc-4e49-b7e2-3dfc1f4de111",
+  "filename": "sales_q4.csv",
+  "operation": "forecasting",
+  "description": "Forecast next 30 days and flag anomalies",
+  "s3_input_key": "raw/uploads/3ab26c3f-0a70-4225-8d69-7f31177ad2c5/sales_q4.csv",
+  "created_at": "2026-03-10T09:30:00Z"
+}

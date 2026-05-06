@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Data Automation Cloud{% endblock %}</title>
+    <meta name="description" content="Cloud-native automated analytics platform built with Flask and AWS.">
+    <script>
+        tailwind = {
+            config: {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ["Space Grotesk", "Segoe UI", "sans-serif"]
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body class="app-bg min-h-screen">
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="glow glow-1"></div>
+    <div class="glow glow-2"></div>
+    <div class="grain"></div>
+
+    <div class="app-layout">
+        <aside class="sidebar" id="primary-sidebar" data-sidebar aria-label="Primary">
+            <div class="sidebar-head">
+                <a href="{{ url_for('main.home') }}" class="brand-mark">
+                    <span class="sidebar-icon">🏠</span>
+                    <span class="sidebar-text">Home</span>
+                </a>
+            </div>
+
+            <nav class="sidebar-nav">
+                {% if current_user.is_authenticated %}
+                    <a class="sidebar-link" href="{{ url_for('main.user_portal') }}">
+                        <span class="sidebar-icon">&#128100;</span>
+                        <span class="sidebar-text">User</span>
+                    </a>
+                    <a class="sidebar-link" href="{{ url_for('main.about') }}">
+                        <span class="sidebar-icon">i</span>
+                        <span class="sidebar-text">About</span>
+                    </a>
+                    <form method="post" action="{{ url_for('auth.logout') }}">
+                        <button class="sidebar-link sidebar-link-danger" type="submit">
+                            <span class="sidebar-icon">&#10162;</span>
+                            <span class="sidebar-text">Logout</span>
+                        </button>
+                    </form>
+                {% else %}
+                    <a class="sidebar-link" href="{{ url_for('auth.login') }}">
+                        <span class="sidebar-icon">&#10140;</span>
+                        <span class="sidebar-text">Login</span>
+                    </a>
+                    <a class="sidebar-link" href="{{ url_for('auth.register') }}">
+                        <span class="sidebar-icon">+</span>
+                        <span class="sidebar-text">Register</span>
+                    </a>
+                {% endif %}
+            </nav>
+        </aside>
+
+        <button class="sidebar-overlay" data-sidebar-overlay aria-label="Close navigation"></button>
+
+        <div class="workspace">
+            <header class="workspace-topbar">
+                <button
+                    class="sidebar-toggle"
+                    type="button"
+                    data-sidebar-toggle
+                    aria-expanded="false"
+                    aria-controls="primary-sidebar"
+                >
+                    Menu
+                </button>
+                <a href="{{ url_for('main.home') }}" class="brand-mark">
+                    <span class="brand-dot"></span>
+                    <span>Data Automation</span>
+                </a>
+            </header>
+
+            <main id="main-content" class="shell py-10 md:py-12">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="space-y-2 mb-6">
+                            {% for category, message in messages %}
+                                <div class="flash {{ category }}">{{ message }}</div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                {% block content %}{% endblock %}
+            </main>
+
+            <footer class="shell pb-10 pt-2 text-xs text-slate-300/70">
+                <p>Data Automation Platform | Retail Intelligence Workspace</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

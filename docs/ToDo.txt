@@ -1,0 +1,76 @@
+ToDo and Action Log - Data Automation Platform
+Timezone: IST (+05:30)
+
+[2026-03-10 13:45:22] Initialized empty repository workspace scan.
+[2026-03-10 13:45:59] Created base project directories: app, routes, services, templates, static, docs, tests.
+[2026-03-10 13:46:34] Captured baseline timestamp and began Phase 1 implementation.
+[2026-03-10 13:47:11] Added environment/config files: .gitignore, requirements.txt, .env.example.
+[2026-03-10 13:47:52] Implemented Flask entrypoint and app factory (run.py, app/__init__.py).
+[2026-03-10 13:48:26] Added Flask extensions and config (Flask-Login, Flask-Bcrypt, AWS placeholders).
+[2026-03-10 13:49:07] Implemented route blueprints: main, auth, dataset, analysis.
+[2026-03-10 13:49:58] Implemented services layer: pipeline stub, AWS client factory, report service.
+[2026-03-10 13:50:44] Added all required templates for login/register/home/upload/operation/results/dashboard/report/history.
+[2026-03-10 13:51:18] Added responsive styling and lightweight page animation scripts.
+[2026-03-10 13:51:47] Added baseline API test: tests/test_health.py.
+[2026-03-10 13:52:19] Added architecture and phase documentation under docs/.
+[2026-03-10 13:52:53] Added DevInstructions.txt with local + AWS console setup and IAM handoff steps.
+[2026-03-10 13:53:20] Added project README with roadmap and team ownership.
+[2026-03-10 13:53:44] Installed Python dependencies from requirements.txt.
+[2026-03-10 13:54:03] Executed pytest; initial pass showed OneDrive-related cache permission warnings.
+[2026-03-10 13:54:27] Added pytest.ini to stabilize test behavior in OneDrive workspace.
+[2026-03-10 13:54:49] Re-ran pytest after configuration update: 1 test passed, 0 warnings/errors.
+[2026-03-10 13:55:05] Performed Flask app import and URL map smoke-check.
+[2026-03-10 13:55:33] Ran python compile check for app package (no syntax errors).
+[2026-03-10 13:55:58] Refined UI typography by adding Space Grotesk font import.
+[2026-03-10 13:56:18] Re-validated test suite after UI update: 1 test passed.
+[2026-03-10 13:56:31] Updated DevInstructions timestamp after Phase 1 validation.
+[2026-03-10 14:07:52] Investigated user-reported venv issue: pip installs were targeting global Python instead of .venv.
+[2026-03-10 14:08:19] Installed project dependencies explicitly into .venv using .venv\\Scripts\\python.exe -m pip install -r requirements.txt.
+[2026-03-10 14:08:32] Verified venv imports (dotenv), pytest pass, and Flask app factory import success.
+[2026-03-10 14:08:44] Updated setup docs to use python -m pip and explicit PowerShell activation path.
+[2026-03-10 14:14:08] Started Phase 2 implementation: frontend framework hardening and componentization.
+[2026-03-10 14:15:27] Added reusable Jinja component macros in app/templates/components/ui.html.
+[2026-03-10 14:16:03] Reworked base layout with mobile navigation and responsive shell structure.
+[2026-03-10 14:16:58] Upgraded design system CSS (tokens, cards, buttons, status badges, steps, timeline, progress bars).
+[2026-03-10 14:17:34] Upgraded frontend JS interactions (menu toggle, reveal observer, animated progress fills).
+[2026-03-10 14:18:41] Refactored all core templates to consume shared UI macros and improved responsive layouts.
+[2026-03-10 14:19:06] Added tests/test_pages.py for page rendering and auth redirect checks.
+[2026-03-10 14:19:52] Added docs/PHASE_02.md and updated README phase tracking.
+[2026-03-10 14:20:26] Updated DevInstructions with Phase 2 UI validation workflow.
+[2026-03-10 14:20:57] Ran full test suite after Phase 2 changes: 4 tests passed.
+[2026-03-10 14:21:04] Verified Flask app route map and template compile checks after UI refactor.
+[2026-03-10 14:21:09] Marked Phase 2 complete.
+[2026-03-10 14:24:18] Started Phase 3 implementation: persistent auth + OTP verification flow.
+[2026-03-10 14:25:07] Extended app configuration with AUTH_DB_PATH, OTP expiry/cooldown, and SMTP sender values.
+[2026-03-10 14:25:36] Updated app factory to support config overrides and initialize auth database at startup.
+[2026-03-10 14:27:12] Added auth_store service with SQLite-backed users and OTP storage.
+[2026-03-10 14:27:49] Added otp_service for OTP generation, hashing, verification, and SMTP/local delivery.
+[2026-03-10 14:29:02] Rebuilt auth routes: register/login/verify/resend/logout with verification gates.
+[2026-03-10 14:29:33] Added OTP verification template and updated auth UI navigation links.
+[2026-03-10 14:29:51] Updated .env.example with new auth/OTP environment variables.
+[2026-03-10 14:30:03] Updated health endpoint to report phase 3 and aligned tests.
+[2026-03-10 14:31:08] Added auth flow tests for happy path and invalid OTP path.
+[2026-03-10 14:32:21] Added docs/PHASE_03.md and updated README phase tracking.
+[2026-03-10 14:34:09] Rebuilt DevInstructions with detailed pending task split for Kunal and Manasvi.
+[2026-03-10 14:40:48] Re-ran full tests after fixes: 6 tests passed.
+[2026-03-10 14:40:55] Re-ran Python compile checks for app package (no syntax issues).
+[2026-03-10 14:41:08] Updated .gitignore to exclude local instance SQLite artifacts.
+[2026-03-10 14:41:21] Marked Phase 3 complete.
+[2026-03-10 15:07:03] Started detailed Manasvi handoff documentation task.
+[2026-03-10 15:07:54] Created infra template directories (stepfunctions, lambda payload examples, athena).
+[2026-03-10 15:08:15] Added docs/MANASVI_PIPELINE_RUNBOOK.md with full AWS execution playbook.
+[2026-03-10 15:08:27] Added Step Functions template and Lambda/Athena payload/query templates under infra/.
+[2026-03-10 15:08:41] Updated DevInstructions with Manasvi artifact checklist and runbook references.
+[2026-03-10 15:08:49] Updated README with Manasvi runbook and infra folder references.
+[2026-03-10 15:09:11] Re-ran test suite after documentation/template updates: 6 tests passed.
+[2026-03-10 15:10:42] Added MANASVI_CODEX_CONTEXT.md for cross-machine Codex continuity and mandatory update rules.
+[2026-03-10 15:11:35] Added manasvi.md with crystal-clear click-by-click AWS task instructions for Manasvi.
+[2026-03-10 15:16:27] Updated DevInstructions to reference new Manasvi transfer files.
+[2026-03-10 15:16:51] Updated README with Transfer Pack section for Manasvi handoff.
+[2026-03-10 15:17:03] Updated DevInstructions timestamp after handoff documentation changes.
+[2026-03-10 15:17:29] Re-ran test suite after handoff file additions: 6 tests passed.
+[2026-03-10 15:18:06] Added duplicate handoff file named 'manasvi' (no extension) to match transfer naming request.
+
+Pending Actions
+[2026-03-10 13:55:34] Phase 4: Dataset persistence and S3 upload integration.
+[2026-03-10 13:55:48] Phase 5: Replace local pipeline stub with Step Functions orchestration.

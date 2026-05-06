@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import action_button %}
+{% block title %}Home | Data Automation{% endblock %}
+{% block content %}
+<section class="space-y-6">
+    <div class="card p-7 md:p-10 reveal">
+        <p class="eyebrow">Upload once. Get insights.</p>
+        <h1 class="title-xl max-w-4xl">Simple automated analytics workflow</h1>
+        <p class="title-sub max-w-3xl">
+            Use the main workflow from this page: choose process, upload your file, and track status/results.
+        </p>
+
+        {% if current_user.is_authenticated %}
+            <div class="home-action-grid">
+                <article class="home-action">
+                    <h2>Choose Process</h2>
+                    <p>Select the type of analysis before upload.</p>
+                    {{ action_button(url_for('dataset.operation_selection'), "Open Process", "secondary") }}
+                </article>
+                <article class="home-action">
+                    <h2>Upload Dataset</h2>
+                    <p>Upload CSV or Excel and start execution.</p>
+                    {{ action_button(url_for('dataset.upload_dataset'), "Upload", "primary") }}
+                </article>
+                <article class="home-action">
+                    <h2>Track Runs</h2>
+                    <p>See processing, results, and previous jobs.</p>
+                    {{ action_button(url_for('analysis.history'), "History", "secondary") }}
+                </article>
+            </div>
+        {% else %}
+            <div class="mt-7 flex gap-3 flex-wrap">
+                {{ action_button(url_for('auth.login'), "Login", "primary") }}
+                {{ action_button(url_for('auth.register'), "Register", "secondary") }}
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

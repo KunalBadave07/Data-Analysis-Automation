@@ -1,0 +1,217 @@
+2026-03-10 18:15:55,121 | INFO | Pipeline started
+2026-03-10 18:15:55,121 | INFO | Loading dataset
+2026-03-10 18:15:55,277 | INFO | Cleaning dataset
+2026-03-10 18:15:55,367 | INFO | Running data validation
+2026-03-10 18:15:55,371 | INFO | Handling outliers
+2026-03-10 18:15:55,381 | INFO | Creating features
+2026-03-10 18:15:55,401 | INFO | Saving processed dataset
+2026-03-10 18:15:55,640 | INFO | Pipeline completed successfully
+2026-03-10 18:16:31,238 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-10 18:16:31,238 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-10 18:16:31,238 | INFO |  * Restarting with stat
+2026-03-10 18:16:33,352 | WARNING |  * Debugger is active!
+2026-03-10 18:16:33,352 | INFO |  * Debugger PIN: 550-775-321
+2026-03-10 18:16:45,667 | INFO | Pipeline started
+2026-03-10 18:16:45,673 | INFO | Loading dataset
+2026-03-10 18:16:46,938 | INFO | Cleaning dataset
+2026-03-10 18:16:47,862 | INFO | Running data validation
+2026-03-10 18:16:47,948 | INFO | Handling outliers
+2026-03-10 18:16:48,006 | INFO | Creating features
+2026-03-10 18:16:48,330 | INFO | Saving processed dataset
+2026-03-10 18:16:50,002 | INFO | Pipeline completed successfully
+2026-03-10 18:16:50,013 | INFO | 127.0.0.1 - - [10/Mar/2026 18:16:50] "GET /run-pipeline HTTP/1.1" 200 -
+2026-03-10 18:17:13,492 | INFO | Pipeline started
+2026-03-10 18:17:13,492 | INFO | Loading dataset
+2026-03-10 18:17:14,623 | INFO | Cleaning dataset
+2026-03-10 18:17:15,128 | INFO | Running data validation
+2026-03-10 18:17:15,232 | INFO | Handling outliers
+2026-03-10 18:17:15,269 | INFO | Creating features
+2026-03-10 18:17:15,407 | INFO | Saving processed dataset
+2026-03-10 18:17:16,791 | INFO | Pipeline completed successfully
+2026-03-10 18:17:16,797 | INFO | 127.0.0.1 - - [10/Mar/2026 18:17:16] "GET /run-pipeline HTTP/1.1" 200 -
+2026-03-10 19:23:08,362 | INFO | RUN_ID=db70e18b | Pipeline started
+2026-03-10 19:23:08,362 | INFO | RUN_ID=db70e18b | Loading dataset
+2026-03-10 19:23:08,560 | INFO | RUN_ID=db70e18b | Cleaning dataset
+2026-03-10 19:23:08,680 | INFO | RUN_ID=db70e18b | Running data validation
+2026-03-10 19:23:08,687 | INFO | RUN_ID=db70e18b | Handling outliers
+2026-03-10 19:23:08,707 | INFO | RUN_ID=db70e18b | Creating features
+2026-03-10 19:23:08,739 | INFO | RUN_ID=db70e18b | Saving processed dataset
+2026-03-10 19:23:08,947 | INFO | RUN_ID=db70e18b | Pipeline completed successfully
+2026-03-10 19:23:25,334 | INFO | RUN_ID=372a148f | Pipeline started
+2026-03-10 19:23:25,334 | INFO | RUN_ID=372a148f | Loading dataset
+2026-03-10 19:23:25,489 | INFO | RUN_ID=372a148f | Cleaning dataset
+2026-03-10 19:23:25,597 | INFO | RUN_ID=372a148f | Running data validation
+2026-03-10 19:23:25,601 | INFO | RUN_ID=372a148f | Handling outliers
+2026-03-10 19:23:25,615 | INFO | RUN_ID=372a148f | Creating features
+2026-03-10 19:23:25,645 | INFO | RUN_ID=372a148f | Saving processed dataset
+2026-03-10 19:23:25,827 | INFO | RUN_ID=372a148f | Pipeline completed successfully
+2026-03-10 20:20:55,882 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-10 20:20:55,882 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-10 20:20:55,882 | INFO |  * Restarting with stat
+2026-03-10 20:20:58,193 | WARNING |  * Debugger is active!
+2026-03-10 20:20:58,209 | INFO |  * Debugger PIN: 550-775-321
+2026-03-10 20:21:45,785 | INFO | RUN_ID=5b689b9d | Pipeline started
+2026-03-10 20:21:45,785 | INFO | RUN_ID=5b689b9d | Loading dataset
+2026-03-10 20:21:46,144 | INFO | RUN_ID=5b689b9d | Uploading raw dataset to S3
+2026-03-10 20:21:48,988 | INFO | RUN_ID=5b689b9d | Cleaning dataset
+2026-03-10 20:21:49,264 | INFO | RUN_ID=5b689b9d | Running data validation
+2026-03-10 20:21:49,264 | INFO | RUN_ID=5b689b9d | Handling outliers
+2026-03-10 20:21:49,309 | INFO | RUN_ID=5b689b9d | Creating features
+2026-03-10 20:21:49,363 | INFO | RUN_ID=5b689b9d | Saving processed dataset
+2026-03-10 20:21:49,810 | INFO | RUN_ID=5b689b9d | Uploading processed dataset to S3
+2026-03-10 20:21:50,435 | INFO | RUN_ID=5b689b9d | Pipeline completed successfully
+2026-03-10 20:21:50,440 | INFO | 127.0.0.1 - - [10/Mar/2026 20:21:50] "GET /run-pipeline HTTP/1.1" 200 -
+2026-03-10 20:22:11,440 | INFO | RUN_ID=aa7f713e | Pipeline started
+2026-03-10 20:22:11,440 | INFO | RUN_ID=aa7f713e | Loading dataset
+2026-03-10 20:22:11,763 | INFO | RUN_ID=aa7f713e | Uploading raw dataset to S3
+2026-03-10 20:22:14,580 | INFO | RUN_ID=aa7f713e | Cleaning dataset
+2026-03-10 20:22:14,781 | INFO | RUN_ID=aa7f713e | Running data validation
+2026-03-10 20:22:14,789 | INFO | RUN_ID=aa7f713e | Handling outliers
+2026-03-10 20:22:14,807 | INFO | RUN_ID=aa7f713e | Creating features
+2026-03-10 20:22:14,852 | INFO | RUN_ID=aa7f713e | Saving processed dataset
+2026-03-10 20:22:15,287 | INFO | RUN_ID=aa7f713e | Uploading processed dataset to S3
+2026-03-10 20:22:15,996 | INFO | RUN_ID=aa7f713e | Pipeline completed successfully
+2026-03-10 20:22:16,001 | INFO | 127.0.0.1 - - [10/Mar/2026 20:22:16] "GET /run-pipeline HTTP/1.1" 200 -
+2026-03-10 20:22:27,433 | INFO |  * Detected change in 'E:\\MCA\\aws AI pipeline for Data Analytics\\cloud-ai-sales-data-analytics-pipeline\\backend\\data_pipeline.py', reloading
+2026-03-10 20:22:27,746 | INFO |  * Restarting with stat
+2026-03-10 20:22:30,057 | WARNING |  * Debugger is active!
+2026-03-10 20:22:30,066 | INFO |  * Debugger PIN: 550-775-321
+2026-03-10 20:22:49,516 | INFO | RUN_ID=bc91dc0f | Pipeline started
+2026-03-10 20:22:49,516 | INFO | RUN_ID=bc91dc0f | Loading dataset
+2026-03-10 20:22:49,885 | INFO | RUN_ID=bc91dc0f | Uploading raw dataset to S3
+2026-03-10 20:22:52,727 | INFO | RUN_ID=bc91dc0f | Cleaning dataset
+2026-03-10 20:22:53,003 | INFO | RUN_ID=bc91dc0f | Running data validation
+2026-03-10 20:22:53,007 | INFO | RUN_ID=bc91dc0f | Handling outliers
+2026-03-10 20:22:53,028 | INFO | RUN_ID=bc91dc0f | Creating features
+2026-03-10 20:22:53,076 | INFO | RUN_ID=bc91dc0f | Saving processed dataset
+2026-03-10 20:22:53,469 | INFO | RUN_ID=bc91dc0f | Uploading processed dataset to S3
+2026-03-10 20:22:54,196 | INFO | RUN_ID=bc91dc0f | Pipeline completed successfully
+2026-03-10 20:22:54,202 | INFO | 127.0.0.1 - - [10/Mar/2026 20:22:54] "GET /run-pipeline HTTP/1.1" 200 -
+2026-03-11 14:56:40,553 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-11 14:56:40,554 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-11 14:56:40,554 | INFO |  * Restarting with stat
+2026-03-11 14:56:41,866 | WARNING |  * Debugger is active!
+2026-03-11 14:56:41,866 | INFO |  * Debugger PIN: 550-775-321
+2026-03-11 14:59:09,369 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-11 14:59:09,369 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-11 14:59:09,369 | INFO |  * Restarting with stat
+2026-03-11 14:59:10,714 | WARNING |  * Debugger is active!
+2026-03-11 14:59:10,729 | INFO |  * Debugger PIN: 550-775-321
+2026-03-11 15:02:36,222 | INFO | RUN_ID=b63a7cef | Pipeline started
+2026-03-11 15:02:36,222 | INFO | RUN_ID=b63a7cef | Loading dataset
+2026-03-11 15:02:36,338 | INFO | RUN_ID=b63a7cef | Uploading raw dataset to S3
+2026-03-11 15:02:55,125 | INFO | RUN_ID=b63a7cef | Cleaning dataset
+2026-03-11 15:02:55,388 | INFO | RUN_ID=b63a7cef | Running data validation
+2026-03-11 15:02:55,391 | INFO | RUN_ID=b63a7cef | Handling outliers
+2026-03-11 15:02:55,419 | INFO | RUN_ID=b63a7cef | Creating features
+2026-03-11 15:02:55,489 | INFO | RUN_ID=b63a7cef | Saving processed dataset
+2026-03-11 15:02:56,002 | INFO | RUN_ID=b63a7cef | Uploading processed dataset to S3
+2026-03-11 15:03:05,569 | INFO | RUN_ID=b63a7cef | Pipeline completed successfully
+2026-03-11 15:03:40,854 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-11 15:03:40,854 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-11 15:03:40,857 | INFO |  * Restarting with stat
+2026-03-11 15:03:42,442 | WARNING |  * Debugger is active!
+2026-03-11 15:03:42,442 | INFO |  * Debugger PIN: 550-775-321
+2026-03-11 15:40:47,288 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-11 15:40:47,288 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-11 15:40:47,292 | INFO |  * Restarting with stat
+2026-03-11 15:40:48,586 | WARNING |  * Debugger is active!
+2026-03-11 15:40:48,596 | INFO |  * Debugger PIN: 550-775-321
+2026-03-15 11:52:24,477 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-15 11:52:24,477 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-15 11:52:24,480 | INFO |  * Restarting with stat
+2026-03-15 11:52:25,757 | WARNING |  * Debugger is active!
+2026-03-15 11:52:25,763 | INFO |  * Debugger PIN: 144-496-031
+2026-03-15 11:53:26,871 | INFO | RUN_ID=c3b3bb3f | Pipeline started
+2026-03-15 11:53:26,871 | INFO | RUN_ID=c3b3bb3f | Loading dataset
+2026-03-15 11:53:26,975 | INFO | RUN_ID=c3b3bb3f | Uploading raw dataset to S3
+2026-03-15 11:53:26,975 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/raw/retail_store_inventory.csv to S3 -> raw-data/retail_store_inventory.csv
+2026-03-15 11:53:27,682 | INFO | S3 upload successful: raw-data/retail_store_inventory.csv
+2026-03-15 11:53:27,682 | INFO | RUN_ID=c3b3bb3f | Cleaning dataset
+2026-03-15 11:53:27,754 | INFO | RUN_ID=c3b3bb3f | Running data validation
+2026-03-15 11:53:27,754 | INFO | RUN_ID=c3b3bb3f | Handling outliers
+2026-03-15 11:53:27,754 | INFO | RUN_ID=c3b3bb3f | Creating features
+2026-03-15 11:53:27,780 | INFO | RUN_ID=c3b3bb3f | Saving processed dataset
+2026-03-15 11:53:27,885 | INFO | RUN_ID=c3b3bb3f | Uploading processed dataset to S3
+2026-03-15 11:53:27,885 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/processed/processed_sales_data.csv to S3 -> processed-data/processed_sales_data.csv
+2026-03-15 11:53:28,036 | INFO | S3 upload successful: processed-data/processed_sales_data.csv
+2026-03-15 11:53:28,036 | INFO | RUN_ID=c3b3bb3f | Pipeline completed successfully
+2026-03-15 12:33:40,788 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-15 12:33:40,788 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-15 12:33:40,790 | INFO |  * Restarting with stat
+2026-03-15 12:33:42,973 | WARNING |  * Debugger is active!
+2026-03-15 12:33:42,979 | INFO |  * Debugger PIN: 144-496-031
+2026-03-15 12:37:08,864 | INFO | RUN_ID=d104176b | Pipeline started
+2026-03-15 12:37:08,864 | INFO | RUN_ID=d104176b | Loading dataset
+2026-03-15 12:37:09,048 | INFO | RUN_ID=d104176b | Uploading raw dataset to S3
+2026-03-15 12:37:09,049 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/raw/retail_store_inventory.csv to S3 -> raw-data/retail_store_inventory.csv
+2026-03-15 12:37:10,216 | INFO | S3 upload successful: raw-data/retail_store_inventory.csv
+2026-03-15 12:37:10,216 | INFO | RUN_ID=d104176b | Cleaning dataset
+2026-03-15 12:37:10,361 | INFO | RUN_ID=d104176b | Running data validation
+2026-03-15 12:37:10,361 | INFO | RUN_ID=d104176b | Handling outliers
+2026-03-15 12:37:10,380 | INFO | RUN_ID=d104176b | Creating features
+2026-03-15 12:37:10,413 | INFO | RUN_ID=d104176b | Saving processed dataset
+2026-03-15 12:37:10,635 | INFO | RUN_ID=d104176b | Uploading processed dataset to S3
+2026-03-15 12:37:10,635 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/processed/processed_sales_data.csv to S3 -> processed-data/processed_sales_data.csv
+2026-03-15 12:37:10,906 | INFO | S3 upload successful: processed-data/processed_sales_data.csv
+2026-03-15 12:37:10,906 | INFO | RUN_ID=d104176b | Pipeline completed successfully
+2026-03-15 12:38:19,478 | INFO | RUN_ID=01e05497 | Pipeline started
+2026-03-15 12:38:19,481 | INFO | RUN_ID=01e05497 | Loading dataset
+2026-03-15 12:38:19,809 | INFO | RUN_ID=01e05497 | Uploading raw dataset to S3
+2026-03-15 12:38:19,811 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/raw/retail_store_inventory.csv to S3 -> raw-data/retail_store_inventory.csv
+2026-03-15 12:38:21,480 | INFO | S3 upload successful: raw-data/retail_store_inventory.csv
+2026-03-15 12:38:21,480 | INFO | RUN_ID=01e05497 | Cleaning dataset
+2026-03-15 12:38:21,705 | INFO | RUN_ID=01e05497 | Running data validation
+2026-03-15 12:38:21,711 | INFO | RUN_ID=01e05497 | Handling outliers
+2026-03-15 12:38:21,729 | INFO | RUN_ID=01e05497 | Creating features
+2026-03-15 12:38:21,783 | INFO | RUN_ID=01e05497 | Saving processed dataset
+2026-03-15 12:38:22,211 | INFO | RUN_ID=01e05497 | Uploading processed dataset to S3
+2026-03-15 12:38:22,219 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/processed/processed_sales_data.csv to S3 -> processed-data/processed_sales_data.csv
+2026-03-15 12:38:22,382 | INFO | S3 upload successful: processed-data/processed_sales_data.csv
+2026-03-15 12:38:22,382 | INFO | RUN_ID=01e05497 | Pipeline completed successfully
+2026-03-15 12:40:44,626 | INFO | RUN_ID=48bb4274 | Pipeline started
+2026-03-15 12:40:44,626 | INFO | RUN_ID=48bb4274 | Loading dataset
+2026-03-15 12:40:44,793 | INFO | RUN_ID=48bb4274 | Uploading raw dataset to S3
+2026-03-15 12:40:44,793 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/raw/retail_store_inventory.csv to S3 -> raw-data/retail_store_inventory.csv
+2026-03-15 12:40:45,932 | INFO | S3 upload successful: raw-data/retail_store_inventory.csv
+2026-03-15 12:40:45,932 | INFO | RUN_ID=48bb4274 | Cleaning dataset
+2026-03-15 12:40:46,137 | INFO | RUN_ID=48bb4274 | Running data validation
+2026-03-15 12:40:46,147 | INFO | RUN_ID=48bb4274 | Handling outliers
+2026-03-15 12:40:46,173 | INFO | RUN_ID=48bb4274 | Creating features
+2026-03-15 12:40:46,224 | INFO | RUN_ID=48bb4274 | Saving processed dataset
+2026-03-15 12:40:46,448 | INFO | RUN_ID=48bb4274 | Uploading processed dataset to S3
+2026-03-15 12:40:46,448 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/processed/processed_sales_data.csv to S3 -> processed-data/processed_sales_data.csv
+2026-03-15 12:40:46,617 | INFO | S3 upload successful: processed-data/processed_sales_data.csv
+2026-03-15 12:40:46,617 | INFO | RUN_ID=48bb4274 | Pipeline completed successfully
+2026-03-30 22:56:04,183 | INFO | [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-03-30 22:56:04,183 | INFO | [33mPress CTRL+C to quit[0m
+2026-03-30 22:56:04,187 | INFO |  * Restarting with stat
+2026-03-30 22:56:06,674 | WARNING |  * Debugger is active!
+2026-03-30 22:56:06,687 | INFO |  * Debugger PIN: 119-715-064
+2026-03-30 22:57:14,937 | INFO | 127.0.0.1 - - [30/Mar/2026 22:57:14] "[33mGET / HTTP/1.1[0m" 404 -
+2026-03-30 22:57:15,063 | INFO | 127.0.0.1 - - [30/Mar/2026 22:57:15] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-03-30 22:57:29,293 | INFO | 127.0.0.1 - - [30/Mar/2026 22:57:29] "[33mGET / HTTP/1.1[0m" 404 -
+2026-03-30 22:57:35,775 | INFO | RUN_ID=338f0b0b | Pipeline started
+2026-03-30 22:57:35,775 | INFO | RUN_ID=338f0b0b | Loading dataset
+2026-03-30 22:57:36,153 | INFO | RUN_ID=338f0b0b | Uploading raw dataset to S3
+2026-03-30 22:57:36,154 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/raw/retail_store_inventory.csv to S3 -> raw-data/retail_store_inventory.csv
+2026-03-30 22:57:39,423 | INFO | S3 upload successful: raw-data/retail_store_inventory.csv
+2026-03-30 22:57:39,423 | INFO | RUN_ID=338f0b0b | Cleaning dataset
+2026-03-30 22:57:39,793 | INFO | RUN_ID=338f0b0b | Running data validation
+2026-03-30 22:57:39,794 | INFO | RUN_ID=338f0b0b | Handling outliers
+2026-03-30 22:57:39,810 | INFO | RUN_ID=338f0b0b | Creating features
+2026-03-30 22:57:39,835 | INFO | RUN_ID=338f0b0b | Saving processed dataset
+2026-03-30 22:57:40,088 | INFO | RUN_ID=338f0b0b | Uploading processed dataset to S3
+2026-03-30 22:57:40,089 | INFO | Uploading E:\MCA\aws AI pipeline for Data Analytics\cloud-ai-sales-data-analytics-pipeline\data/processed/processed_sales_data.csv to S3 -> processed-data/processed_sales_data.csv
+2026-03-30 22:57:40,900 | INFO | S3 upload successful: processed-data/processed_sales_data.csv
+2026-03-30 22:57:40,900 | INFO | RUN_ID=338f0b0b | Pipeline completed successfully
+2026-03-30 22:57:40,903 | INFO | 127.0.0.1 - - [30/Mar/2026 22:57:40] "GET /run-pipeline HTTP/1.1" 200 -

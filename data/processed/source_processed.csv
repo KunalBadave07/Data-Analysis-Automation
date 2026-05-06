@@ -1,0 +1,4 @@
+order_date,product_line,state,qty,unit_price,order_date_year,order_date_month,order_date_quarter,order_date_day
+2025-01-01,A,North,10,100,2025.0,1.0,1.0,1.0
+,A,South,20,110,,,,
+2025-01-02,B,North,15,105,2025.0,1.0,1.0,2.0

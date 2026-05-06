@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import page_header, pipeline_steps %}
+{% block title %}Operation Selection | Data Automation{% endblock %}
+{% block content %}
+<section class="space-y-6">
+    {{ page_header("Step 1", "Choose Analytics Operation", "Pick the type of analysis before uploading the dataset.") }}
+    {{ pipeline_steps("1") }}
+
+    <div class="grid md:grid-cols-2 gap-4">
+        {% set ops = [
+            ("forecasting", "Forecasting Analysis", "Time-based demand and trend analysis"),
+            ("business_analysis", "Business Analysis", "Category, region, KPI, and operational performance")
+        ] %}
+        {% for op_id, op_name, op_desc in ops %}
+        <a href="{{ url_for('dataset.upload_dataset', operation=op_id) }}" class="card p-5 reveal hover:-translate-y-1 transition">
+            <p class="eyebrow">Analysis Mode</p>
+            <h2 class="text-lg font-bold text-cyan-200">{{ op_name }}</h2>
+            <p class="text-sm text-slate-300 mt-2">{{ op_desc }}</p>
+            <p class="text-xs text-slate-300 mt-4">Continue to upload</p>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

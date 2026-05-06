@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import page_header, pipeline_steps %}
+{% block title %}Upload Dataset | Data Automation{% endblock %}
+{% block content %}
+<section class="space-y-6">
+    {{ page_header("Step 2", "Upload Dataset", "Upload CSV or Excel data and the system will build a real dataset-driven analysis.") }}
+    {{ pipeline_steps("2", default_operation=default_operation) }}
+
+    <div class="grid lg:grid-cols-[1.6fr,1fr] gap-4 items-start">
+        <article class="card p-6 md:p-8 reveal">
+            <form method="post" enctype="multipart/form-data" class="space-y-5">
+                <label class="block">
+                    <span class="label">Operation</span>
+                    <select class="input" name="operation" required>
+                        <option value="" {% if not default_operation %}selected{% endif %}>Select operation</option>
+                        <option value="forecasting" {% if default_operation == "forecasting" %}selected{% endif %}>Forecasting Analysis</option>
+                        <option value="business_analysis" {% if default_operation == "business_analysis" %}selected{% endif %}>Business Analysis</option>
+                    </select>
+                </label>
+
+                <label class="block">
+                    <span class="label">Dataset (CSV/Excel)</span>
+                    <input class="input file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border file:border-[#7FAF8F] file:bg-[#9DBFA6] file:text-black"
+                           type="file" name="dataset" accept=".csv,.xlsx,.xls" required>
+                </label>
+
+                <label class="block">
+                    <span class="label">Optional analysis description</span>
+                    <textarea class="input min-h-[120px]" name="description" placeholder="Example: Focus on profitability, retention, and monthly demand shifts"></textarea>
+                </label>
+
+                <button class="btn-primary" type="submit">Start Automated Analysis</button>
+            </form>
+        </article>
+
+        <aside class="card p-5 reveal">
+            <p class="eyebrow">Upload Checklist</p>
+            <ul class="space-y-2 text-sm text-slate-300">
+                <li>Keep one clear header row.</li>
+                <li>Add a business question if you want tailored narrative.</li>
+            </ul>
+            <div class="mt-5">
+                <p class="text-xs text-slate-300">Supported formats: CSV, XLS, XLSX</p>
+            </div>
+        </aside>
+    </div>
+</section>
+{% endblock %}

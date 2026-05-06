@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import action_button, page_header %}
+{% block title %}User | Data Automation{% endblock %}
+{% block content %}
+<section class="space-y-6">
+    {{ page_header("", "User", "Account details, history, and settings.") }}
+
+    <div class="grid lg:grid-cols-[1.3fr,1fr] gap-4 items-start">
+        <article class="card p-6 reveal">
+            <h2 class="text-xl font-bold">Account</h2>
+            <div class="mt-4 grid sm:grid-cols-2 gap-4 text-sm text-slate-200">
+                <div>
+                    <p class="label">Email</p>
+                    <p>{{ current_user.email }}</p>
+                </div>
+                <div>
+                    <p class="label">Account ID</p>
+                    <p class="break-all">{{ current_user.id }}</p>
+                </div>
+                <div>
+                    <p class="label">Verification</p>
+                    <p>{% if current_user.is_verified %}Verified{% else %}Pending{% endif %}</p>
+                </div>
+                <div>
+                    <p class="label">Total Jobs</p>
+                    <p>{{ total_jobs }}</p>
+                </div>
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+                {{ action_button(url_for('analysis.history'), "Open Full History", "secondary") }}
+                {{ action_button(url_for('dataset.operation_selection'), "Start New Process", "primary") }}
+            </div>
+        </article>
+
+        <aside class="card p-6 reveal">
+            <h2 class="text-xl font-bold">Settings</h2>
+            <p class="text-sm text-slate-300 mt-1">Open a section to manage your preferences.</p>
+
+            <div class="settings-stack">
+                <details class="settings-item">
+                    <summary>Profile Preferences</summary>
+                    <div class="settings-body">
+                        <p>Set basic user preferences for workflow defaults.</p>
+                        <form method="post" action="{{ url_for('main.update_preferences') }}" class="space-y-3">
+                            <input type="hidden" name="section" value="profile">
+                            <label class="block setting-row">
+                                <span class="label">Display Name</span>
+                                <input class="input" type="text" name="display_name" value="{{ settings.display_name }}">
+                            </label>
+                            <label class="block setting-row">
+                                <span class="label">Default Operation</span>
+                                <select class="input" name="default_operation">
+                                    <option value="forecasting" {% if settings.default_operation == "forecasting" %}selected{% endif %}>Forecasting</option>
+                                    <option value="business_analysis" {% if settings.default_operation == "business_analysis" %}selected{% endif %}>Business Analysis</option>
+                                </select>
+                            </label>
+                            <label class="block setting-row">
+                                <span class="label">Preferred Start Page</span>
+                                <select class="input" name="start_page">
+                                    <option value="home" {% if settings.start_page == "home" %}selected{% endif %}>Home</option>
+                                    <option value="upload" {% if settings.start_page == "upload" %}selected{% endif %}>Upload</option>
+                                    <option value="history" {% if settings.start_page == "history" %}selected{% endif %}>History</option>
+                                </select>
+                            </label>
+                            <button class="btn-secondary w-full" type="submit">Save Profile Settings</button>
+                        </form>
+                    </div>
+                </details>
+
+                <details class="settings-item">
+                    <summary>Notification Settings</summary>
+                    <div class="settings-body">
+                        <p>Control email and pipeline alerts.</p>
+                        <form method="post" action="{{ url_for('main.update_preferences') }}" class="space-y-3">
+                            <input type="hidden" name="section" value="notifications">
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" name="email_notifications" {% if settings.email_notifications %}checked{% endif %}>
+                                <span>Email notifications</span>
+                            </label>
+                            <label class="flex items-center gap-2">
+                                <input type="checkbox" name="pipeline_alerts" {% if settings.pipeline_alerts %}checked{% endif %}>
+                                <span>Pipeline completion alerts</span>
+                            </label>
+                            <button class="btn-secondary w-full" type="submit">Save Notification Settings</button>
+                        </form>
+                    </div>
+                </details>
+
+                <details class="settings-item">
+                    <summary>Security Settings</summary>
+                    <div class="settings-body">
+                        <p>Change your account password.</p>
+                        <form class="space-y-3" method="post" action="{{ url_for('auth.change_password') }}">
+                            <label class="block setting-row">
+                                <span class="label">Current Password</span>
+                                <input class="input" type="password" name="current_password" required>
+                            </label>
+                            <label class="block setting-row">
+                                <span class="label">New Password</span>
+                                <input class="input" type="password" name="new_password" minlength="8" required>
+                            </label>
+                            <label class="block setting-row">
+                                <span class="label">Confirm New Password</span>
+                                <input class="input" type="password" name="confirm_password" minlength="8" required>
+                            </label>
+                            <button class="btn-primary w-full" type="submit">Update Password</button>
+                        </form>
+                    </div>
+                </details>
+            </div>
+        </aside>
+    </div>
+
+    {% if jobs %}
+        <article class="card p-6 reveal">
+            <h2 class="text-xl font-bold">Recent History</h2>
+            <ul class="mt-4 space-y-2 text-sm">
+                {% for job in jobs[:5] %}
+                    <li class="flex flex-wrap items-center justify-between gap-2">
+                        <span>{{ job.filename }} | {{ job.operation }} | {{ job.status }}</span>
+                        <a class="btn-ghost" href="{{ url_for('analysis.results', job_id=job.job_id) }}">Open</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </article>
+    {% else %}
+        <article class="card p-6 reveal">
+            <p class="text-slate-300">No analysis history yet. Start from the process selection.</p>
+        </article>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import page_header %}
+{% block title %}Register | Data Automation{% endblock %}
+{% block content %}
+<section class="max-w-md mx-auto card p-6 md:p-8 reveal">
+    {{ page_header("", "Create your account", "Register now and verify with OTP before first login.") }}
+
+    <form method="post" class="space-y-4">
+        <label class="block">
+            <span class="label">Email</span>
+            <input class="input" type="email" name="email" required>
+        </label>
+        <label class="block">
+            <span class="label">Password</span>
+            <input class="input" type="password" name="password" minlength="8" required>
+        </label>
+        <button class="btn-primary w-full" type="submit">Register</button>
+    </form>
+
+    <p class="text-sm text-slate-300 mt-5">
+        Already registered? <a class="text-cyan-200 underline" href="{{ url_for('auth.login') }}">Login here</a>.
+    </p>
+</section>
+{% endblock %}

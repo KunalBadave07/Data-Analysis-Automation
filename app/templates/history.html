@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import action_button, page_header, status_badge %}
+{% block title %}Analysis History | Data Automation{% endblock %}
+{% block content %}
+<section class="space-y-6">
+    {{ page_header("", "User Analysis History", "Track every run and reopen outputs instantly.") }}
+
+    {% if jobs %}
+        <div class="space-y-3">
+            {% for job in jobs %}
+            <article class="card p-5 flex flex-wrap items-center justify-between gap-3 reveal">
+                <div>
+                    <p class="font-semibold">{{ job.filename }}</p>
+                    <p class="text-sm text-slate-300">
+                        {{ job.operation }} | {{ job.created_at }}
+                    </p>
+                    <div class="mt-2">{{ status_badge(job.status) }}</div>
+                </div>
+                <div class="flex gap-2">
+                    {{ action_button(url_for('analysis.results', job_id=job.job_id), "Results", "secondary") }}
+                    {{ action_button(url_for('analysis.dashboard', job_id=job.job_id), "Dashboard", "secondary") }}
+                    {{ action_button(url_for('analysis.report', job_id=job.job_id), "Report", "secondary") }}
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="card p-6 reveal">
+            <p class="text-slate-300">No analysis runs yet. Start from operation selection.</p>
+            <div class="mt-4">
+                {{ action_button(url_for('dataset.operation_selection'), "Choose Operation", "primary") }}
+            </div>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

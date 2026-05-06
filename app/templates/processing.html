@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import action_button, page_header, pipeline_steps, status_badge %}
+{% block title %}Processing | Data Automation{% endblock %}
+{% block content %}
+<section class="space-y-6">
+    {{ page_header("Step 3", "Pipeline Status", "Track progress as the uploaded dataset is validated, transformed, and analyzed.") }}
+    {{ pipeline_steps("3", job=job) }}
+
+    <div class="grid lg:grid-cols-[1.4fr,1fr] gap-4 items-start">
+        <article class="card p-6 md:p-8 text-center reveal">
+            <p class="text-slate-300">Job <code>{{ job.job_id }}</code></p>
+            <div class="mt-3">{{ status_badge(job.status) }}</div>
+            {% if job.status == "SUCCEEDED" %}
+                <div class="mt-7 text-green-400 text-2xl font-bold">Completed</div>
+            {% else %}
+                <div class="mx-auto mt-7 h-16 w-16 border-4 border-cyan-200/30 border-t-cyan-300 rounded-full spinner"></div>
+            {% endif %}
+
+            <div class="progress-track mt-8">
+                <div class="progress-fill" data-progress="100"></div>
+            </div>
+            <p class="text-xs text-slate-300 mt-3">
+                The status reflects the actual uploaded dataset and its generated outputs.
+            </p>
+
+            <div class="mt-7">
+                {{ action_button(url_for('analysis.results', job_id=job.job_id), "Open Results", "primary") }}
+            </div>
+        </article>
+
+        <aside class="card p-5 reveal text-sm">
+            <p class="font-bold mb-3">Execution Timeline</p>
+            <div class="timeline">
+                <p class="timeline-item">Dataset accepted and stored</p>
+                <p class="timeline-item">Columns normalized and validated</p>
+                <p class="timeline-item">Features and real analytics generated</p>
+                <p class="timeline-item">Dashboard and report prepared</p>
+            </div>
+        </aside>
+        <style>
+.timeline-item {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.timeline-item:nth-child(1) { animation-delay: 0.5s; }
+.timeline-item:nth-child(2) { animation-delay: 1s; }
+.timeline-item:nth-child(3) { animation-delay: 1.5s; }
+.timeline-item:nth-child(4) { animation-delay: 2s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<script>
+  const items = document.querySelectorAll('.timeline-item');
+
+  items.forEach((item, index) => {
+    item.style.opacity = "0";
+    item.style.transform = "translateY(10px)";
+    
+    setTimeout(() => {
+      item.style.transition = "all 0.6s ease";
+      item.style.opacity = "1";
+      item.style.transform = "translateY(0)";
+    }, index * 500); // change to 700 for slower
+  });
+</script>
+
+
+    </div>
+</section>
+{% endblock %}

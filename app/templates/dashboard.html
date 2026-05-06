@@ -1,0 +1,299 @@
+{% extends "base.html" %}
+{% from "components/ui.html" import action_button, page_header, pipeline_steps %}
+
+{% block title %}Dashboard | Data Automation{% endblock %}
+
+{% block content %}
+<section class="dashboard-shell">
+    {{ page_header("Step 5", "Retail Intelligence Dashboard", "Executive analytics for current performance, forward demand, and commercial action planning.") }}
+    {{ pipeline_steps("5", job=job) }}
+
+    {% if chart_data %}
+    {% set filter_lists = chart_data.filter_lists or {} %}
+    <div class="dashboard-hero card">
+        <div class="dashboard-hero-copy">
+            <p class="eyebrow">Mode</p>
+            <h2>{{ chart_data.mode_name }}</h2>
+            <p>{{ chart_data.mode_intro }}</p>
+            <div class="dashboard-meta">
+                <span>Dataset: {{ job.filename }}</span>
+                <span>Primary metric: {{ chart_data.metric_label }}</span>
+                <span>Summary: {{ chart_data.summary }}</span>
+            </div>
+        </div>
+        <div class="dashboard-hero-aside">
+            <div class="dashboard-chip-stack">
+                {% for mode in chart_data.available_modes %}
+                <a
+                    class="dashboard-mode-tab {% if chart_data.operation == mode.key %}active{% endif %}"
+                    href="{{ url_for('analysis.dashboard', job_id=job.job_id, mode=mode.key, category=chart_data.filters.category, region=chart_data.filters.region, year=chart_data.filters.year, product=chart_data.filters.product) }}"
+                >
+                    {{ mode.label }}
+                </a>
+                {% endfor %}
+            </div>
+            <div class="dashboard-score-card">
+                <p class="metric-label">Mapping confidence</p>
+                <h3>{{ chart_data.schema_health.confidence_score }}%</h3>
+                <p class="metric-hint">{{ chart_data.schema_health.mapped_count }}/{{ chart_data.schema_health.expected_count }} retail fields mapped automatically.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-main">
+        <section class="dashboard-section">
+            <div class="dashboard-panel-head">
+                <div>
+                    <p class="eyebrow">1. Summary</p>
+                    <h3>KPI Summary</h3>
+                </div>
+            </div>
+            <div class="dashboard-kpi-grid">
+                {% for item in chart_data.kpis %}
+                {% set destination = analysis.metric_destinations.get(item.key) if analysis and analysis.metric_destinations else None %}
+                {% if destination %}
+                <a class="dashboard-kpi-card card metric-card-link" href="{{ url_for('analysis.metric_detail', job_id=job.job_id, metric_key=item.key, mode=chart_data.operation, category=chart_data.filters.category, region=chart_data.filters.region, year=chart_data.filters.year, product=chart_data.filters.product) }}">
+                    <p class="metric-label">{{ item.label }}</p>
+                    <h2 class="metric-value">{{ item.display_value }}</h2>
+                    <p class="metric-hint">{{ item.insight or destination.insight }}</p>
+                </a>
+                {% else %}
+                <article class="dashboard-kpi-card card">
+                    <p class="metric-label">{{ item.label }}</p>
+                    <h2 class="metric-value">{{ item.display_value }}</h2>
+                    <p class="metric-hint">{{ item.insight }}</p>
+                </article>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="dashboard-section">
+            <div class="dashboard-panel-head">
+                <div>
+                    <p class="eyebrow">Controls</p>
+                    <h3>Dashboard Filters</h3>
+                </div>
+            </div>
+            <form method="GET" class="dashboard-filter-ribbon card">
+                <input type="hidden" name="mode" value="{{ chart_data.operation }}">
+
+                <label class="dashboard-filter-field">
+                    <span class="label">Category</span>
+                    <select name="category" class="input dashboard-filter-input">
+                        <option value="all">All Categories</option>
+                        {% for c in filter_lists.category_list %}
+                        <option value="{{ c }}" {% if chart_data.filters.category == c %}selected{% endif %}>{{ c }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label class="dashboard-filter-field">
+                    <span class="label">Region</span>
+                    <select name="region" class="input dashboard-filter-input">
+                        <option value="all">All Regions</option>
+                        {% for r in filter_lists.region_list %}
+                        <option value="{{ r }}" {% if chart_data.filters.region == r %}selected{% endif %}>{{ r }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label class="dashboard-filter-field">
+                    <span class="label">Product</span>
+                    <select name="product" class="input dashboard-filter-input">
+                        <option value="all">All Products</option>
+                        {% for p in filter_lists.product_list %}
+                        <option value="{{ p }}" {% if chart_data.filters.product == p %}selected{% endif %}>{{ p }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <label class="dashboard-filter-field">
+                    <span class="label">Year</span>
+                    <select name="year" class="input dashboard-filter-input">
+                        <option value="all">All Years</option>
+                        {% for y in filter_lists.year_list %}
+                        <option value="{{ y }}" {% if chart_data.filters.year == y|string %}selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+
+                <button type="submit" class="btn-primary dashboard-filter-button">Apply Filters</button>
+            </form>
+
+            <div class="dashboard-filter-summary card">
+                <div class="dashboard-summary-group">
+                    <p class="metric-label">Current Scope</p>
+                    <div class="dashboard-summary-chips">
+                        <span>Category: {{ chart_data.filters.category|replace('_', ' ')|title }}</span>
+                        <span>Region: {{ chart_data.filters.region|replace('_', ' ')|title }}</span>
+                        <span>Product: {{ chart_data.filters.product|replace('_', ' ')|title }}</span>
+                        <span>Year: {{ chart_data.filters.year }}</span>
+                    </div>
+                </div>
+                <div class="dashboard-summary-group">
+                    <p class="metric-label">Detected Schema</p>
+                    <div class="dashboard-summary-chips">
+                        {% for note in chart_data.schema_health.mapping_notes %}
+                        <span>{{ note }}</span>
+                        {% endfor %}
+                        {% for field in chart_data.schema_health.missing_required %}
+                        <span>Missing expected field: {{ field|replace('_', ' ')|title }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+            <section class="dashboard-section">
+            <div class="dashboard-panel-head">
+                <div>
+                    <p class="eyebrow">2. Visual Analytics</p>
+                    <h3>Executive Charts</h3>
+                </div>
+            </div>
+            <div class="dashboard-chart-grid">
+                {% for chart in chart_data.charts %}
+                <article class="dashboard-chart-card card">
+                    <div class="dashboard-head">
+                        <div>
+                            <h3>{{ chart.title }}</h3>
+                            <p class="metric-hint">{{ chart.description }}</p>
+                        </div>
+                        <button class="btn-secondary export-chart-button" type="button" data-export-target="{{ chart.id }}">Export PNG</button>
+                    </div>
+                    <canvas id="{{ chart.id }}"></canvas>
+                </article>
+                {% endfor %}
+            </div>
+            </section>
+
+            {% if chart_data.tables %}
+            <section class="dashboard-section">
+                <div class="dashboard-panel-head">
+                    <div>
+                        <p class="eyebrow">3. Diagnostics</p>
+                        <h3>Detail Tables</h3>
+                    </div>
+                </div>
+                <div class="dashboard-table-grid">
+                    {% for table in chart_data.tables %}
+                    <article class="card dashboard-table-card reveal">
+                        <h3>{{ table.title }}</h3>
+                        <div class="overflow-x-auto">
+                            <table class="dashboard-table">
+                                <thead>
+                                    <tr>
+                                        {% for column in table.columns %}
+                                        <th>{{ column }}</th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for row in table.rows %}
+                                    <tr>
+                                        {% for cell in row %}
+                                        <td>{{ cell }}</td>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <section class="dashboard-section">
+                <div class="dashboard-panel-head">
+                    <div>
+                        <p class="eyebrow">4. AI Insights</p>
+                        <h3>What This Means</h3>
+                    </div>
+                </div>
+                <div class="dashboard-insight-grid">
+                    {% for insight in chart_data.highlights %}
+                    <article class="dashboard-insight-card card tone-{{ insight.tone }}">
+                        <p class="metric-label">{{ insight.title }}</p>
+                        <h3>{{ insight.summary }}</h3>
+                        <p>{{ insight.meaning }}</p>
+                        <div class="dashboard-action-callout">{{ insight.action }}</div>
+                    </article>
+                    {% endfor %}
+                </div>
+            </section>
+
+            {% if chart_data.mode_sections %}
+            <section class="dashboard-section">
+                <div class="dashboard-panel-head">
+                    <div>
+                        <p class="eyebrow">5. Recommendations</p>
+                        <h3>Mode Highlights</h3>
+                    </div>
+                </div>
+                <div class="dashboard-notes-grid">
+                    {% for section in chart_data.mode_sections %}
+                    <article class="card dashboard-note-card reveal">
+                        <h3>{{ section.title }}</h3>
+                        <ul>
+                            {% for item in section["items"] %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </article>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <section class="dashboard-section">
+                <div class="dashboard-panel-head">
+                    <div>
+                        <p class="eyebrow">6. Business Actions</p>
+                        <h3>Recommended Next Moves</h3>
+                    </div>
+                </div>
+                <div class="dashboard-actions-grid">
+                    <article class="card dashboard-list-card">
+                        <h3>Recommendations</h3>
+                        <ul>
+                            {% for item in chart_data.recommendations %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </article>
+                    <article class="card dashboard-list-card">
+                        <h3>Action Plan</h3>
+                        <ul>
+                            {% for item in chart_data.business_actions %}
+                            <li>{{ item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </article>
+                </div>
+            </section>
+        </div>
+    {% else %}
+    <div class="card p-6 text-center">
+        <h2 class="text-lg font-bold text-red-400">No Dashboard Available</h2>
+        <p class="text-sm text-slate-300 mt-2">{{ error if error else "Pipeline failed or no data is available." }}</p>
+    </div>
+    {% endif %}
+
+    <div class="dashboard-toolbar">
+        {{ action_button(url_for('analysis.dashboard_export', job_id=job.job_id, mode=chart_data.operation if chart_data else 'business_analysis', category=chart_data.filters.category if chart_data else 'all', region=chart_data.filters.region if chart_data else 'all', year=chart_data.filters.year if chart_data else 'all', product=chart_data.filters.product if chart_data else 'all', format='powerbi_html'), "Download Styled Dashboard", "primary") }}
+        {{ action_button(url_for('analysis.dashboard_export', job_id=job.job_id, mode=chart_data.operation if chart_data else 'business_analysis', category=chart_data.filters.category if chart_data else 'all', region=chart_data.filters.region if chart_data else 'all', year=chart_data.filters.year if chart_data else 'all', product=chart_data.filters.product if chart_data else 'all'), "Download Data JSON", "secondary") }}
+        {{ action_button(url_for('analysis.report', job_id=job.job_id), "Open Report", "secondary") }}
+        <button class="btn-ghost" type="button" data-export-pdf data-export-target=".dashboard-shell" data-export-name="dashboard-{{ job.job_id }}.pdf">Download PDF</button>
+        <button class="btn-ghost" type="button" onclick="window.print()">Print</button>
+    </div>
+
+    {% if chart_data %}
+    <script>
+        window.dashboardData = JSON.parse('{{ chart_data | tojson | safe }}');
+    </script>
+    {% endif %}
+</section>
+{% endblock %}

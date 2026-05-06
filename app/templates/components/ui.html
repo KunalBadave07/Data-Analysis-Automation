@@ -1,0 +1,74 @@
+{% macro page_header(step_label="", title="", subtitle="") -%}
+<header class="page-header reveal">
+    {% if step_label %}
+    <p class="eyebrow">{{ step_label }}</p>
+    {% endif %}
+    <h1 class="title-xl">{{ title }}</h1>
+    {% if subtitle %}
+    <p class="title-sub">{{ subtitle }}</p>
+    {% endif %}
+</header>
+{%- endmacro %}
+
+{% macro status_badge(status) -%}
+{% set normalized = (status or "UNKNOWN")|upper %}
+{% if normalized == "SUCCEEDED" %}
+<span class="status-badge success">{{ normalized }}</span>
+{% elif normalized == "FAILED" %}
+<span class="status-badge failed">{{ normalized }}</span>
+{% else %}
+<span class="status-badge running">{{ normalized }}</span>
+{% endif %}
+{%- endmacro %}
+
+{% macro action_button(href, label, variant="primary") -%}
+<a href="{{ href }}" class="btn-{{ variant }}">{{ label }}</a>
+{%- endmacro %}
+
+{% macro pipeline_steps(active_step, job=None, default_operation="") -%}
+{% if job %}
+    {% set completed_up_to = 3 if job.status == "SUCCEEDED" or job.status == "FAILED" else 2 %}
+    {% if job.status == "SUCCEEDED" %}
+        {% set completed_up_to = 6 %}
+    {% endif %}
+    {% set steps = [
+        ("1", "Operation", url_for('dataset.operation_selection'), true),
+        ("2", "Upload", url_for('dataset.upload_dataset', operation=job.operation), true),
+        ("3", "Processing", url_for('analysis.processing_status', job_id=job.job_id), true),
+        ("4", "Results", url_for('analysis.results', job_id=job.job_id), job.status == 'SUCCEEDED'),
+        ("5", "Dashboard", url_for('analysis.dashboard', job_id=job.job_id), job.status == 'SUCCEEDED'),
+        ("6", "Report", url_for('analysis.report', job_id=job.job_id), job.status == 'SUCCEEDED')
+    ] %}
+{% else %}
+    {% set steps = [
+        ("1", "Operation", url_for('dataset.operation_selection'), true),
+        ("2", "Upload", url_for('dataset.upload_dataset', operation=default_operation), active_step|int >= 2),
+        ("3", "Processing", "#", false),
+        ("4", "Results", "#", false),
+        ("5", "Dashboard", "#", false),
+        ("6", "Report", "#", false)
+    ] %}
+{% endif %}
+<section class="step-track reveal" aria-label="Pipeline progress">
+    {% for step_num, step_name, step_href, can_visit in steps %}
+    {% set is_active = step_num == active_step %}
+    {% set is_done = step_num|int < active_step|int %}
+    {% set is_locked = not can_visit %}
+    {% if not is_locked %}
+    <a
+        href="{{ step_href }}"
+        class="step-item {% if is_active %}active{% elif is_done %}done{% endif %} clickable"
+        aria-current="{% if is_active %}step{% else %}false{% endif %}"
+    >
+        <span class="step-dot">{{ step_num }}</span>
+        <span class="step-label">{{ step_name }}</span>
+    </a>
+    {% else %}
+    <div class="step-item locked" aria-disabled="true">
+        <span class="step-dot">{{ step_num }}</span>
+        <span class="step-label">{{ step_name }}</span>
+    </div>
+    {% endif %}
+    {% endfor %}
+</section>
+{%- endmacro %}

@@ -13,9 +13,9 @@ This project turns a raw CSV/Excel upload into a guided analytics flow with:
 
 It is designed to show both product thinking and engineering execution: a usable frontend, a working local pipeline, and a cloud architecture path for full orchestration.
 
-## Why This Project Stands Out
 
-Recruiter-friendly highlights:
+
+Highlights:
 - Built an end-to-end analytics product, not just isolated notebooks or charts.
 - Accepts different dataset schemas and infers useful business fields automatically.
 - Supports two analysis modes: `Forecasting Analysis` and `Business Analysis`.

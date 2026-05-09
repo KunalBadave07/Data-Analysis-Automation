@@ -127,7 +127,7 @@ For a lightweight demo workload, the non-QuickSight AWS services can stay very c
 - `Step Functions` includes `4,000 free state transitions/month`.
 - `Athena` is billed by data scanned, with AWS pricing examples showing `USD 5/TB scanned`.
 
-Practical recruiter summary:
+Practical summary:
 - A student/demo version can often run in the `low single-digit USD/month` range if usage is small.
 - The first meaningful recurring dashboard cost is usually `QuickSight`, where AWS lists `Author` pricing starting at `USD 24/user/month`.
 
